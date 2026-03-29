@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Cuestionario: Software de Sistema 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b1120 0%, #0e1628 100%);
+            font-family: 'Segoe UI', 'Poppins', 'Roboto', system-ui, sans-serif;
+            padding: 2rem 1rem;
+            color: #eef2ff;
+        }
+
+        .quiz-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(18, 25, 45, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(66, 153, 225, 0.2);
+            overflow: hidden;
+            padding: 1.8rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #2d3a5e;
+            padding-bottom: 1.2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a5c9ff, #4c8eff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            color: #8f9bb5;
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        .instructions {
+            background: #10182e;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #3b82f6;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .section {
+            margin: 1.8rem 0;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: #1e2a44;
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            color: #c6ddff;
+        }
+
+        .question-card {
+            background: #0f1629;
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            transition: all 0.2s ease;
+            border: 1px solid #25345c;
+            box-shadow: 0 6px 12px -8px rgba(0,0,0,0.4);
+        }
+
+        .question-card:hover {
+            border-color: #3b6eff;
+            background: #111a30;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: #e6edff;
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .q-num {
+            background: #2a3a60;
+            border-radius: 30px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem 0.8rem;
+            border-radius: 1rem;
+            transition: background 0.15s;
+            background: #0b1122;
+            border: 1px solid #232d48;
+        }
+
+        .option:hover {
+            background: #18213e;
+            border-color: #4f6dc5;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2px solid #5d72af;
+            border-radius: 50%;
+            margin-top: 0.1rem;
+            cursor: pointer;
+            background: #0f1428;
+            transition: 0.1s;
+            flex-shrink: 0;
+        }
+
+        input[type="radio"]:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: inset 0 0 0 3px #0f1428;
+        }
+
+        .option label {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            cursor: pointer;
+            color: #cfddf5;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #1f2a48;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #2c5cf0;
+            box-shadow: 0 5px 12px #1e3a8a40;
+        }
+
+        .btn-primary:hover {
+            background: #1f47c0;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: #2a3457;
+        }
+
+        .btn-secondary:hover {
+            background: #3a4670;
+        }
+
+        .results {
+            background: #0a1122e6;
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            margin-top: 2rem;
+            padding: 1.2rem;
+            border: 1px solid #2e4172;
+        }
+
+        .score-board {
+            text-align: center;
+            padding: 0.8rem;
+            background: #030717;
+            border-radius: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .score-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #facc15;
+        }
+
+        .feedback-item {
+            font-size: 0.85rem;
+            padding: 0.6rem;
+            border-bottom: 1px solid #253155;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: baseline;
+        }
+
+        .correct-badge {
+            color: #6ee7b7;
+            font-weight: bold;
+        }
+
+        .incorrect-badge {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .answer-detail {
+            font-family: monospace;
+            background: #00000033;
+            padding: 0.2rem 0.5rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        hr {
+            border-color: #253758;
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 2rem;
+            color: #5f6e97;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-wrapper {
+                padding: 1rem;
+            }
+            .question-card {
+                padding: 1rem;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-wrapper">
+    <div class="header">
+        <h1>🖥️ Software de Sistema 2026</h1>
+        <div class="sub">BIOS/UEFI · Controladores · Utilidades · Tendencias IA</div>
+    </div>
+    <div class="instructions">
+        📘 <strong>Instrucciones:</strong> Selecciona la respuesta correcta para cada una de las 15 preguntas. 
+        Basado en guías sobre software de sistema, controladores, BIOS/UEFI y actualizaciones tecnológicas de 2026.
+        Al finalizar, presiona <strong>"✅ Calificar examen"</strong> para obtener tu puntaje y revisar las respuestas correctas.
+        ¡Demuestra tu conocimiento!
+    </div>
+
+    <form id="quizForm">
+        <!-- Sección única (todas las preguntas) -->
+        <div class="section">
+            <div class="section-title">💿 Cuestionario de Software</div>
+
+            <!-- Pregunta 1 -->
+            <div class="question-card" data-qid="1">
+                <div class="question-text"><span class="q-num">Pregunta 1</span> ¿Cuál es la función principal de los controladores de dispositivos (drivers)?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">A) Realizar tareas específicas para el usuario como escribir documentos.</label></div>
+                    <div class="option"><input type="radio" name="q1" value="b" id="q1b"><label for="q1b">B) Actuar como "traductores" para que el sistema operativo se comunique con hardware específico.</label></div>
+                    <div class="option"><input type="radio" name="q1" value="c" id="q1c"><label for="q1c">C) Gestionar la conexión a internet de forma exclusiva.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="question-card" data-qid="2">
+                <div class="question-text"><span class="q-num">Pregunta 2</span> ¿En qué componente físico se almacena el BIOS o UEFI?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q2" value="a" id="q2a"><label for="q2a">A) En el disco duro principal.</label></div>
+                    <div class="option"><input type="radio" name="q2" value="b" id="q2b"><label for="q2b">B) En la memoria RAM de acceso aleatorio.</label></div>
+                    <div class="option"><input type="radio" name="q2" value="c" id="q2c"><label for="q2c">C) En un chip de memoria ubicado en la placa madre (motherboard).</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="question-card" data-qid="3">
+                <div class="question-text"><span class="q-num">Pregunta 3</span> ¿Qué realiza el proceso conocido como POST durante el arranque?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q3" value="a" id="q3a"><label for="q3a">A) Una autoprueba de encendido para revisar que el hardware funcione bien.</label></div>
+                    <div class="option"><input type="radio" name="q3" value="b" id="q3b"><label for="q3b">B) Una limpieza de archivos temporales en el sistema operativo.</label></div>
+                    <div class="option"><input type="radio" name="q3" value="c" id="q3c"><label for="q3c">C) Una actualización automática de los drivers de red.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="question-card" data-qid="4">
+                <div class="question-text"><span class="q-num">Pregunta 4</span> ¿Cuál es una diferencia visual notable entre el BIOS tradicional y el UEFI moderno?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q4" value="a" id="q4a"><label for="q4a">A) El BIOS es táctil y el UEFI solo usa comandos.</label></div>
+                    <div class="option"><input type="radio" name="q4" value="b" id="q4b"><label for="q4b">B) El BIOS usa una interfaz de texto azul, mientras que el UEFI ofrece interfaz gráfica y soporte para ratón.</label></div>
+                    <div class="option"><input type="radio" name="q4" value="c" id="q4c"><label for="q4c">C) No hay diferencias visuales, solo cambian las funciones internas.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="question-card" data-qid="5">
+                <div class="question-text"><span class="q-num">Pregunta 5</span> ¿Por qué el UEFI es indispensable para discos duros de gran capacidad en 2026?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q5" value="a" id="q5a"><label for="q5a">A) Porque es el único que puede leer archivos comprimidos.</label></div>
+                    <div class="option"><input type="radio" name="q5" value="b" id="q5b"><label for="q5b">B) Porque el BIOS tradicional tiene un límite de reconocimiento de 2 TB.</label></div>
+                    <div class="option"><input type="radio" name="q5" value="c" id="q5c"><label for="q5c">C) Porque el UEFI aumenta físicamente el tamaño del disco.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 6 -->
+            <div class="question-card" data-qid="6">
+                <div class="question-text"><span class="q-num">Pregunta 6</span> ¿Qué función cumple el "Secure Boot" (Arranque Seguro) en la UEFI?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q6" value="a" id="q6a"><label for="q6a">A) Permite iniciar sesión sin contraseña.</label></div>
+                    <div class="option"><input type="radio" name="q6" value="b" id="q6b"><label for="q6b">B) Evita que software malicioso como "bootkits" se ejecute durante el inicio.</label></div>
+                    <div class="option"><input type="radio" name="q6" value="c" id="q6c"><label for="q6c">C) Hace que el ordenador se apague más rápido de forma segura.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 7 -->
+            <div class="question-card" data-qid="7">
+                <div class="question-text"><span class="q-num">Pregunta 7</span> Según las actualizaciones de 2026, ¿qué permite el "Edge AI" en los controladores?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q7" value="a" id="q7a"><label for="q7a">A) Gestionar tareas de IA directamente en el dispositivo sin conectarse a la nube.</label></div>
+                    <div class="option"><input type="radio" name="q7" value="b" id="q7b"><label for="q7b">B) Que los drivers se instalen solos mediante la voz del usuario.</label></div>
+                    <div class="option"><input type="radio" name="q7" value="c" id="q7c"><label for="q7c">C) Eliminar la necesidad de tener un sistema operativo.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 8 -->
+            <div class="question-card" data-qid="8">
+                <div class="question-text"><span class="q-num">Pregunta 8</span> ¿Cuál es la misión única de los cargadores de programas (loaders)?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q8" value="a" id="q8a"><label for="q8a">A) Descargar programas desde una tienda de aplicaciones.</label></div>
+                    <div class="option"><input type="radio" name="q8" value="b" id="q8b"><label for="q8b">B) Tomar un programa del disco duro, ponerlo en la RAM y prepararlo para su ejecución.</label></div>
+                    <div class="option"><input type="radio" name="q8" value="c" id="q8c"><label for="q8c">C) Organizar los iconos en el escritorio del usuario.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 9 -->
+            <div class="question-card" data-qid="9">
+                <div class="question-text"><span class="q-num">Pregunta 9</span> ¿Qué ha pasado con los desfragmentadores de disco manuales para el año 2026?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q9" value="a" id="q9a"><label for="q9a">A) Ahora son la herramienta más importante del usuario.</label></div>
+                    <div class="option"><input type="radio" name="q9" value="b" id="q9b"><label for="q9b">B) Han sido reemplazados por sistemas de optimización automática integrados en el SO.</label></div>
+                    <div class="option"><input type="radio" name="q9" value="c" id="q9c"><label for="q9c">C) Se han fusionado con los programas de edición de video.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 10 -->
+            <div class="question-card" data-qid="10">
+                <div class="question-text"><span class="q-num">Pregunta 10</span> ¿Qué novedad presenta el Administrador de Tareas en Windows 11 para 2026?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q10" value="a" id="q10a"><label for="q10a">A) Permite jugar videojuegos directamente desde su interfaz.</label></div>
+                    <div class="option"><input type="radio" name="q10" value="b" id="q10b"><label for="q10b">B) Implementa funciones de "IA agente" para predecir comportamientos y optimizar recursos.</label></div>
+                    <div class="option"><input type="radio" name="q10" value="c" id="q10c"><label for="q10c">C) Ahora puede detectar hardware que no está conectado físicamente.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 11 -->
+            <div class="question-card" data-qid="11">
+                <div class="question-text"><span class="q-num">Pregunta 11</span> ¿Por qué se dice que el software de sistema es "indispensable"?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q11" value="a" id="q11a"><label for="q11a">A) Porque sin él, el hardware no puede funcionar ni dar soporte a otros programas.</label></div>
+                    <div class="option"><input type="radio" name="q11" value="b" id="q11b"><label for="q11b">B) Porque es el software que más espacio ocupa en el disco.</label></div>
+                    <div class="option"><input type="radio" name="q11" value="c" id="q11c"><label for="q11c">C) Porque es el único software que requiere una conexión a internet.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 12 -->
+            <div class="question-card" data-qid="12">
+                <div class="question-text"><span class="q-num">Pregunta 12</span> En la analogía del edificio, ¿qué representa el software de aplicación?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q12" value="a" id="q12a"><label for="q12a">A) Los cimientos y servicios básicos de agua y luz.</label></div>
+                    <div class="option"><input type="radio" name="q12" value="b" id="q12b"><label for="q12b">B) Los muebles y electrodomésticos dentro de un departamento.</label></div>
+                    <div class="option"><input type="radio" name="q12" value="c" id="q12c"><label for="q12c">C) Las herramientas de construcción como el martillo.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 13 -->
+            <div class="question-card" data-qid="13">
+                <div class="question-text"><span class="q-num">Pregunta 13</span> ¿Cuál de los siguientes es un ejemplo de software de programación?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q13" value="a" id="q13a"><label for="q13a">A) Microsoft Word y Excel.</label></div>
+                    <div class="option"><input type="radio" name="q13" value="b" id="q13b"><label for="q13b">B) Visual Studio Code y compiladores de C++.</label></div>
+                    <div class="option"><input type="radio" name="q13" value="c" id="q13c"><label for="q13c">C) Controladores de audio Realtek.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 14 -->
+            <div class="question-card" data-qid="14">
+                <div class="question-text"><span class="q-num">Pregunta 14</span> ¿Qué consecuencia tiene un controlador de dispositivo (driver) incorrecto o desactualizado?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q14" value="a" id="q14a"><label for="q14a">A) El ordenador se queda sin espacio de almacenamiento.</label></div>
+                    <div class="option"><input type="radio" name="q14" value="b" id="q14b"><label for="q14b">B) El componente de hardware puede dejar de funcionar o hacerlo de manera errónea.</label></div>
+                    <div class="option"><input type="radio" name="q14" value="c" id="q14c"><label for="q14c">C) El sistema operativo se borra automáticamente.</label></div>
+                </div>
+            </div>
+
+            <!-- Pregunta 15 -->
+            <div class="question-card" data-qid="15">
+                <div class="question-text"><span class="q-num">Pregunta 15</span> ¿Cuáles son los "cuatro pilares" que componen el ecosistema del software de sistema?</div>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q15" value="a" id="q15a"><label for="q15a">A) Controladores, BIOS/UEFI, Programas Utilitarios y Cargadores de Programas.</label></div>
+                    <div class="option"><input type="radio" name="q15" value="b" id="q15b"><label for="q15b">B) Windows, Word, Chrome y Antivirus.</label></div>
+                    <div class="option"><input type="radio" name="q15" value="c" id="q15c"><label for="q15c">C) RAM, CPU, Disco Duro y Placa Madre.</label></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-primary" id="submitQuiz">✅ Calificar examen</button>
+            <button type="button" class="btn btn-secondary" id="resetQuiz">⟳ Reiniciar respuestas</button>
+        </div>
+    </form>
+
+    <div id="resultArea" class="results" style="display: none;"></div>
+    <footer>📌 Cuestionario interactivo basado en guías de Software de Sistema y tendencias 2026. Selecciona una opción por pregunta.</footer>
+</div>
+
+<script>
+    // Respuestas correctas según clave proporcionada
+    const correctMap = {
+        q1: 'b',
+        q2: 'c',
+        q3: 'a',
+        q4: 'b',
+        q5: 'b',
+        q6: 'b',
+        q7: 'a',
+        q8: 'b',
+        q9: 'b',
+        q10: 'b',
+        q11: 'a',
+        q12: 'b',
+        q13: 'b',
+        q14: 'b',
+        q15: 'a'
+    };
+
+    // Texto descriptivo de cada respuesta correcta (para feedback)
+    const answerDescriptions = {
+        q1: "B) Actuar como 'traductores' entre SO y hardware.",
+        q2: "C) Almacenado en un chip de la placa madre (ROM/flash).",
+        q3: "A) POST = Power-On Self Test, verifica hardware crítico.",
+        q4: "B) BIOS: interfaz texto azul; UEFI: gráfica + mouse.",
+        q5: "B) BIOS tradicional limita a 2 TB; UEFI soporta discos >2 TB.",
+        q6: "B) Secure Boot evita bootkits y malware en el inicio.",
+        q7: "A) Edge AI: procesamiento de IA local, sin nube.",
+        q8: "B) Loaders cargan programas desde disco a RAM para ejecución.",
+        q9: "B) Optimización automática integrada en SO (TRIM/desfragmentación automática).",
+        q10: "B) IA agente en Administrador de tareas: predice y optimiza recursos.",
+        q11: "A) Sin software de sistema, hardware inútil y sin soporte para apps.",
+        q12: "B) Aplicaciones = muebles/electrodomésticos; sistema = cimientos.",
+        q13: "B) VS Code y compiladores son herramientas de programación.",
+        q14: "B) Driver incorrecto → hardware no funciona o falla.",
+        q15: "A) Controladores, BIOS/UEFI, Programas Utilitarios y Cargadores."
+    };
+
+    function getSelectedAnswers() {
+        let answers = {};
+        for (let i = 1; i <= 15; i++) {
+            const name = `q${i}`;
+            const selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
+            answers[name] = selectedRadio ? selectedRadio.value : null;
+        }
+        return answers;
+    }
+
+    function evaluateQuiz() {
+        const userAnswers = getSelectedAnswers();
+        let correctCount = 0;
+        let feedbackHtml = '';
+
+        for (let i = 1; i <= 15; i++) {
+            const qName = `q${i}`;
+            const userVal = userAnswers[qName];
+            const correctVal = correctMap[qName];
+            const isCorrect = (userVal === correctVal);
+            if (isCorrect) correctCount++;
+
+            const statusIcon = isCorrect ? '✅' : '❌';
+            const statusClass = isCorrect ? 'correct-badge' : 'incorrect-badge';
+            const userDisplay = userVal ? userVal.toUpperCase() : 'Sin responder';
+            const correctDisplay = correctVal.toUpperCase();
+
+            feedbackHtml += `
+                <div class="feedback-item">
+                    <span style="min-width: 32px;">${statusIcon}</span>
+                    <span><strong>Pregunta ${i}</strong> — </span>
+                    <span class="${statusClass}">${isCorrect ? 'Correcta' : 'Incorrecta'}</span>
+                    <span style="margin-left: auto; font-size:0.75rem;">
+                        Tu respuesta: ${userDisplay} | Correcta: ${correctDisplay}
+                    </span>
+                    <div style="width:100%; margin-top: 5px; color:#b9c7e0; font-size:0.8rem;">
+                        📖 ${answerDescriptions[qName]}
+                    </div>
+                </div>
+            `;
+        }
+
+        const percent = (correctCount / 15) * 100;
+        let message = '';
+        if (percent >= 90) message = '🏆 ¡Experto en software de sistema!';
+        else if (percent >= 70) message = '👍 Muy bien, repasa los detalles sobre UEFI y controladores.';
+        else if (percent >= 50) message = '📘 Buen intento, te sugerimos revisar los conceptos de cargadores y pilares del software.';
+        else message = '🔧 Vuelve a estudiar las guías de software de sistema y BIOS/UEFI.';
+
+        const resultHtml = `
+            <div class="score-board">
+                <div class="score-text">${correctCount} / 15 correctas</div>
+                <div style="font-size:1.2rem; margin-top:5px;">${Math.round(percent)}% — ${message}</div>
+            </div>
+            <div style="max-height: 380px; overflow-y: auto; padding-right: 5px;">
+                ${feedbackHtml}
+            </div>
+            <hr>
+            <div style="text-align: center; font-size: 0.85rem; margin-top: 8px;">
+                ⚡ Revisa las respuestas correctas en el desglose. ¡Sigue aprendiendo!
+            </div>
+        `;
+
+        const resultDiv = document.getElementById('resultArea');
+        resultDiv.innerHTML = resultHtml;
+        resultDiv.style.display = 'block';
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetQuiz() {
+        for (let i = 1; i <= 15; i++) {
+            const radios = document.querySelectorAll(`input[name="q${i}"]`);
+            radios.forEach(radio => radio.checked = false);
+        }
+        const resultDiv = document.getElementById('resultArea');
+        resultDiv.style.display = 'none';
+        resultDiv.innerHTML = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkAllOrWarn() {
+        let unanswered = [];
+        for (let i = 1; i <= 15; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if (!selected) unanswered.push(i);
+        }
+        if (unanswered.length > 0) {
+            return confirm(`⚠️ Aún no has respondido las preguntas: ${unanswered.join(', ')}.\n¿Deseas calificar de todas formas? Las no contestadas se tomarán como incorrectas.`);
+        }
+        return true;
+    }
+
+    document.getElementById('submitQuiz').addEventListener('click', () => {
+        if (checkAllOrWarn()) {
+            evaluateQuiz();
+        }
+    });
+
+    document.getElementById('resetQuiz').addEventListener('click', () => {
+        resetQuiz();
+    });
+
+    // Hacer que al hacer clic en toda la opción se seleccione el radio
+    const optionDivs = document.querySelectorAll('.option');
+    optionDivs.forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            const radio = opt.querySelector('input[type="radio"]');
+            if (radio && !radio.checked) {
+                radio.checked = true;
+            }
+        });
+    });
+</script>
+</body>
+</html>
